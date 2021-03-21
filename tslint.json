@@ -9,5 +9,11 @@
         "jsx-wrap-multiline": true,
         "jsx-no-lambda": false
     },
+    "linterOptions": {
+        "exclude": [
+            "**/*.js",
+            "**/*.jsx"
+        ]
+    },
     "rulesDirectory": []
 }
