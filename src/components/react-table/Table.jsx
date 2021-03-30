@@ -104,27 +104,31 @@ export const Table = () => {
                 )
             },
             {
-                id: 'expander',
-                Header: ({getToggleAllRowsExpandedProps, isAllRowsExpanded}) => (
-                    <span {...getToggleAllRowsExpandedProps()}>
-                        {isAllRowsExpanded ? '👇' : '👉'}
-                    </span>
-                ),
+                // Header: ({getToggleAllRowsExpandedProps, isAllRowsExpanded}) => (
+                //     <>
+                //         <span {...getToggleAllRowsExpandedProps()}>
+                //             {isAllRowsExpanded ? '👇 ' : '👉 '}
+                //         </span>
+                //         <span>Name</span>
+                //     </>
+                // ),
+                Header: 'Name',
+                accessor: 'name',
                 Cell: ({row}) => {
                     if (row.canExpand) {
                         return (
                             <span {...row.getToggleRowExpandedProps({style: {paddingLeft: `${row.depth * 2}rem`}})}>
-                                {row.isExpanded ? '👇' : '👉'}
+                                {row.isExpanded ? '👇 ' : '👉 '}
+                                {row.values.name}
                             </span>
                         );
                     }
-
-                    return null;
+                    return (
+                        <span style={{paddingLeft: `${row.depth * 2}rem`}}>
+                            {row.values.name}
+                        </span>
+                    );
                 }
-            },
-            {
-                Header: 'Name',
-                accessor: 'name'
             },
             {
                 Header: 'Type',
@@ -146,7 +150,9 @@ export const Table = () => {
         getTableBodyProps,
         headerGroups,
         rows,
-        prepareRow
+        prepareRow,
+        getToggleAllRowsExpandedProps,
+        isAllRowsExpanded
     } = useTable(
         {columns, data},
         useSortBy,
@@ -157,20 +163,25 @@ export const Table = () => {
     return (
         <table {...getTableProps()}>
             <thead>
-                {
-                    headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()} key="1">
-                            {
-                                headerGroup.headers.map(column => (
-                                    <th {...column.getHeaderProps(column.getSortByToggleProps())} key={column.id}>
-                                        {column.render('Header')}
-                                        <SortIndicator isSorted={column.isSorted} isSortedDesc={column.isSortedDesc}/>
-                                    </th>
-                                ))
-                            }
-                        </tr>
-                    ))
-                }
+                {headerGroups.map(headerGroup => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                        {
+                            headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps()} key={column.id}>
+                                    <div>
+                                        {column.id === 'name'
+                                            ? <span {...getToggleAllRowsExpandedProps()}>{isAllRowsExpanded ? '👇 ' : '👉 '}</span>
+                                            : null}
+                                        <span {...column.getSortByToggleProps()}>
+                                            {column.render('Header')}
+                                            <SortIndicator isSorted={column.isSorted} isSortedDesc={column.isSortedDesc}/>
+                                        </span>                                        
+                                    </div>
+                                </th>
+                            ))
+                        }
+                    </tr>
+                ))}
             </thead>
             <tbody {...getTableBodyProps()}>
                 {rows.map(row => {
