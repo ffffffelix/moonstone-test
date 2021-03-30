@@ -1,18 +1,40 @@
 table {
-    border: solid 1px blue;
+    border: solid 1px var(--color-accent);
 }
 
 th {
     font-weight: bold;
     color: black;
 
-    border-bottom: solid 3px red;
-    background: aliceblue;
+    border-bottom: solid 3px var(--color-accent);
+    background: var(--color-accent40);
 }
 
 td {
     padding: 10px;
 
     border: solid 1px gray;
-    background: papayawhip;
+    background: var(--color-light);
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.pagination {
+    margin-top: var(--spacing-medium);
+
+    text-align: center;
+}
+
+.pagination_button {
+    margin: 0 var(--spacing-small);
+}
+
+.pagination_pageDisplay {
+    margin: 0 var(--spacing-small);
 }

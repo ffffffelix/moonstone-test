@@ -1,92 +1,16 @@
 import React from 'react';
-import {useTable, useRowSelect, useSortBy, useExpanded} from 'react-table';
+import {useTable, useRowSelect, useSortBy, useExpanded, usePagination} from 'react-table';
 import './Table.scss';
+import mockData from './tableData';
+import {SortIndicator} from './SortIndicator';
+import {IndeterminateCheckbox} from './IndeterminateCheckbox';
+import {Button} from '~/components';
+import {ChevronDoubleLeft, ChevronDoubleRight, ChevronLeft, ChevronRight} from '~/icons';
 
 /* eslint-disable */
 
-const IndeterminateCheckbox = React.forwardRef(
-    ({indeterminate, ...rest}, ref) => {
-        const defaultRef = React.useRef();
-        const resolvedRef = ref || defaultRef;
-
-        React.useEffect(() => {
-            resolvedRef.current.indeterminate = indeterminate;
-        }, [resolvedRef, indeterminate]);
-
-        return (
-            <>
-                <input ref={resolvedRef} type="checkbox" {...rest}/>
-            </>
-        );
-    }
-);
-
-const SortIndicator = ({isSorted, isSortedDesc}) => {
-    if (isSorted) {
-        return isSortedDesc ? ' 🔽' : ' 🔼';
-    }
-
-    return null;
-};
-
 export const Table = () => {
-    const data = React.useMemo(
-        () => [
-            {
-                name: 'Demo Roles and Users',
-                type: 'Page',
-                createdBy: 'root',
-                lastModifiedOn: 'Aug. 12, 2016'
-            },
-            {
-                name: 'About',
-                type: 'Page',
-                createdBy: 'root',
-                lastModifiedOn: 'Jan. 6, 2016',
-                subRows: [
-                    {
-                        name: 'History',
-                        type: 'Page',
-                        createdBy: 'root',
-                        lastModifiedOn: 'Jan. 6, 2016',
-                        subRows: [
-                            {
-                                name: 'banner',
-                                type: 'Banner',
-                                createdBy: 'root',
-                                lastModifiedOn: 'Feb. 4, 2016'
-                            },
-                            {
-                                name: 'Baumquist Joins Digitall As Controller',
-                                type: 'News Entry',
-                                createdBy: 'root',
-                                lastModifiedOn: 'Jan. 21, 2016'
-                            }
-                        ]
-                    },
-                    {
-                        name: 'Leadership',
-                        type: 'Page',
-                        createdBy: 'root',
-                        lastModifiedOn: 'Jan. 6, 2016'
-                    }
-                ]
-            },
-            {
-                name: 'Search Results',
-                type: 'Page',
-                createdBy: 'system',
-                lastModifiedOn: 'Feb. 29, 2016'
-            },
-            {
-                name: 'Corporate Responsibility',
-                type: 'Page',
-                createdBy: 'root',
-                lastModifiedOn: 'Jan. 26, 2016'
-            }
-        ],
-        []
-    );
+    const data = React.useMemo(() => mockData, []);
 
     const columns = React.useMemo(
         () => [
@@ -98,7 +22,7 @@ export const Table = () => {
                     </div>
                 ),
                 Cell: ({row}) => (
-                    <div>
+                    <div className="alignCenter">
                         <IndeterminateCheckbox {...row.getToggleRowSelectedProps()}/>
                     </div>
                 )
@@ -140,7 +64,10 @@ export const Table = () => {
             },
             {
                 Header: 'Last Modified On',
-                accessor: 'lastModifiedOn'
+                accessor: 'lastModifiedOn',
+                Cell: ({row}) => (
+                    <div className="alignRight">{row.values.lastModifiedOn}</div>
+                )
             }
         ], []
     );
@@ -152,51 +79,93 @@ export const Table = () => {
         rows,
         prepareRow,
         getToggleAllRowsExpandedProps,
-        isAllRowsExpanded
+        isAllRowsExpanded,
+        page,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+        state: {pageIndex, pageSize}
     } = useTable(
         {columns, data},
         useSortBy,
         useExpanded,
+        usePagination,
         useRowSelect
     );
 
     return (
-        <table {...getTableProps()}>
-            <thead>
-                {headerGroups.map(headerGroup => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                        {
-                            headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()} key={column.id}>
-                                    <div>
-                                        {column.id === 'name'
-                                            ? <span {...getToggleAllRowsExpandedProps()}>{isAllRowsExpanded ? '👇 ' : '👉 '}</span>
-                                            : null}
-                                        <span {...column.getSortByToggleProps()}>
-                                            {column.render('Header')}
-                                            <SortIndicator isSorted={column.isSorted} isSortedDesc={column.isSortedDesc}/>
-                                        </span>                                        
-                                    </div>
-                                </th>
-                            ))
-                        }
-                    </tr>
-                ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-                {rows.map(row => {
-                    prepareRow(row);
-                    return (
-                        <tr {...row.getRowProps()} key={row.id}>
-                            {row.cells.map(cell => (
-                                <td {...cell.getCellProps()} key={Math.random()}>
-                                    {cell.render('Cell')}
-                                </td>
-                            ))}
+        <>
+            <table {...getTableProps()}>
+                <thead>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {
+                                headerGroup.headers.map(column => (
+                                    <th {...column.getHeaderProps()} key={column.id}>
+                                        <div>
+                                            {column.id === 'name'
+                                                ? <span {...getToggleAllRowsExpandedProps()}>{isAllRowsExpanded ? '👇 ' : '👉 '}</span>
+                                                : null}
+                                            <span {...column.getSortByToggleProps()}>
+                                                {column.render('Header')}
+                                                <SortIndicator isSorted={column.isSorted} isSortedDesc={column.isSortedDesc}/>
+                                            </span>                                        
+                                        </div>
+                                    </th>
+                                ))
+                            }
                         </tr>
-                    );
-                })}
-            </tbody>
-        </table>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {page.map(row => {
+                        prepareRow(row);
+                        return (
+                            <tr {...row.getRowProps()} key={row.id}>
+                                {row.cells.map(cell => (
+                                    <td {...cell.getCellProps()} key={Math.random()}>
+                                        {cell.render('Cell')}
+                                    </td>
+                                ))}
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+            <div className="pagination">
+                <Button
+                    className="pagination_button"
+                    onClick={() => gotoPage(0)}
+                    disabled={!canPreviousPage}
+                    icon={<ChevronDoubleLeft/>}
+                />
+                <Button
+                    className="pagination_button"
+                    onClick={() => previousPage()}
+                    disabled={!canPreviousPage}
+                    icon={<ChevronLeft/>}
+                />
+                <span className="pagination_pageDisplay">
+                    Page {pageIndex + 1} of {pageOptions.length}
+                </span>
+                <Button
+                    className="pagination_button"
+                    onClick={() => nextPage()}
+                    disabled={!canNextPage}
+                    icon={<ChevronRight/>}
+                />
+                <Button
+                    className="pagination_button"
+                    onClick={() => gotoPage(pageCount - 1)}
+                    disabled={!canNextPage}
+                    icon={<ChevronDoubleRight/>}
+                />
+            </div>
+        </>
     );
 };
