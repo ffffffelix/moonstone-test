@@ -14,9 +14,9 @@ export const TableCell: React.FC<Partial<TableCellProps>> = ({
     return (
         <div
             className={clsx(
-                'moonstone-TableCell',
+                'moonstone-TableCell_inner',
                 'flexRow_nowrap',
-                'alignCenter',
+                // 'alignCenter',
                 className
             )}
             {...props}

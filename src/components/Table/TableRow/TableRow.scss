@@ -2,9 +2,19 @@ $row-regular-height: 48px;
 $row-multiple-line-height: 64px;
 
 .moonstone-TableRow {
+    display: grid;
+    grid-template-columns: auto 100px 100px 100px 100px;
     height: $row-regular-height;
 
+    border-bottom: 1px solid var(--color-gray_light);
+
     transition: background-color 0.2s ease-in-out;
+
+    // thead & {
+    //     // in case the header cell label has to wrap
+    //     height: auto;
+    //     min-height: $row-regular-height;
+    // }
 
     .moonstone-TableBody &:hover {
         background-color: var(--color-gray_light40);
@@ -40,5 +50,11 @@ $row-multiple-line-height: 64px;
 
     &.moonstone-TableRow-multipleLines {
         height: $row-multiple-line-height;
+
+        thead & {
+            // in case the header cell label has to wrap
+            height: auto;
+            min-height: $row-multiple-line-height;
+        }
     }
 }

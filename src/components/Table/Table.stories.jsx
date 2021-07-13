@@ -5,7 +5,7 @@
 */
 
 import React, {useEffect, useState} from 'react';
-import {useExpanded, /* useFlexLayout, */ useRowSelect, useSortBy, useTable} from 'react-table';
+import {useExpanded, useRowSelect, useSortBy, useTable} from 'react-table';
 import storyStyles from '~/__storybook__/storybook.module.scss';
 
 import {
@@ -480,21 +480,25 @@ export const StructuredView = () => {
 StructuredView.storyName = 'Structured View with React-Table';
 
 export const ColumnWidthReactTable = () => {
-    const data = React.useMemo(() => tableDataFlat, []);
+    const data = React.useMemo(() => tableDataFlat.concat(tableDataFlat), []);
     const columns = React.useMemo(() => [
         /*
             Use the width property in these column definitions to specify column widths.
             A column without a width property, such as the column definition immediately
             below this comment, will expand to fit any remaining space.
-                "`width` is used as both the flex-basis and flex-grow. This means that it
-                essentially acts as both the minimum width and flex-ratio of the column."
-                - https://react-table.tanstack.com/docs/api/useFlexLayout
+            "`width` is used as both the flex-basis and flex-grow. This means that it
+            essentially acts as both the minimum width and flex-ratio of the column."
+            - https://react-table.tanstack.com/docs/api/useFlexLayout
         */
         {Header: 'Name', id: 'name', accessor: row => row.name.value},
-        {Header: 'Status', accessor: 'status', width: 35},
-        {Header: 'Content Type', accessor: 'type', width: 50},
-        {Header: 'Created By', accessor: 'createdBy', width: 30},
-        {Header: 'Last Modified On', accessor: 'lastModifiedOn', width: 50}
+        // {Header: 'Status', accessor: 'status', width: 35},
+        {Header: 'Status', accessor: 'status'},
+        // {Header: 'Content Type', accessor: 'type', width: 50},
+        {Header: 'Content Type', accessor: 'type'},
+        // {Header: 'Created By', accessor: 'createdBy', width: 30},
+        {Header: 'Created By', accessor: 'createdBy'},
+        // {Header: 'Last Modified On', accessor: 'lastModifiedOn', width: 50}
+        {Header: 'Last Modified On', accessor: 'lastModifiedOn'}
     ], []);
 
     const {
@@ -515,7 +519,7 @@ export const ColumnWidthReactTable = () => {
 
     return (
         <Table {...getTableProps()}>
-            <TableHead>
+            <TableHead isSticky>
                 {headerGroups.map(headerGroup => (
                     // A key is included in headerGroup.getHeaderGroupProps
                     // eslint-disable-next-line react/jsx-key
