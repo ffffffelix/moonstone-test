@@ -3,6 +3,8 @@ import {Love, NoCloud} from '~/icons';
 import myStyles from '~/components/TreeView/TreeView.stories.module.scss';
 import {toIconComponent} from '~/icons/utils';
 
+const svgString = '<svg class="svg-class-name" viewBox="0 0 30 10" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="3" stroke="green"/><circle cx="25" cy="5" r="3" stroke="green" strokeWidth="2%"/></svg>';
+
 export const treeData = [
     {
         id: 'ROOT',
@@ -13,7 +15,7 @@ export const treeData = [
             {
                 id: 'A',
                 label: 'A level 1',
-                iconStart: toIconComponent('http://www.google.com/s2/favicons?domain=www.jahia.com'),
+                iconStart: toIconComponent(svgString),
                 iconEnd: <NoCloud/>,
                 children: [
                     {

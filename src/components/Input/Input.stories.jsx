@@ -31,8 +31,8 @@ storiesOf('Components/Input', module)
                     placeholder="a placeholder!"
                     value={value}
                     onChange={e => setValue(e.target.value)}
-                    onBlur={() => {}}
-                    onFocus={() => {}}
+                    onBlur={() => null}
+                    onFocus={() => null}
                 />
             </section>
         );
@@ -43,9 +43,9 @@ storiesOf('Components/Input', module)
                 <Input
                     placeholder="a placeholder!"
                     defaultValue="default value"
-                    onChange={() => {}}
-                    onBlur={() => {}}
-                    onFocus={() => {}}
+                    onChange={() => null}
+                    onBlur={() => null}
+                    onFocus={() => null}
                 />
             </section>
         );
@@ -93,8 +93,8 @@ storiesOf('Components/Input', module)
                     placeholder="a placeholder!"
                     value={value}
                     onChange={e => setValue(e.target.value)}
-                    onBlur={() => {}}
-                    onFocus={() => {}}
+                    onBlur={() => null}
+                    onFocus={() => null}
                 />
             </section>
         );

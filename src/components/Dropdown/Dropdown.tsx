@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import './Dropdown.scss';
-// import spacings from '~/tokens/spacings/spacing.json';
 
 import {
     DropdownData,
@@ -14,39 +13,37 @@ import {
 } from './Dropdown.types';
 import {Typography} from '~/components/Typography';
 import {ChevronDown} from '~/icons';
-import {DropdownMenu} from "~/components/Dropdown/DropdownMenu";
-import {TreeViewMenu} from "~/components/Dropdown/TreeViewMenu";
-import {TreeViewData} from "~/components/TreeView/TreeView.types";
-
+import {DropdownMenu} from '~/components/Dropdown/DropdownMenu';
+import {TreeViewMenu} from '~/components/Dropdown/TreeViewMenu';
+import {TreeViewData} from '~/components/TreeView/TreeView.types';
 
 export const Dropdown: React.FC<DropdownProps> = ({
     data,
     label,
     value,
     isDisabled,
-    maxWidth,
-    variant,
-    size,
+    maxWidth = '300px',
+    variant = DropdownVariants.Ghost,
+    size = DropdownSizes.Medium,
     icon,
-    hasSearch,
-    searchEmptyText,
+    hasSearch = false,
+    searchEmptyText = 'No results found.',
     imageSize,
     onChange,
     className,
     isTree,
     ...props
 }) => {
+    const [isOpened, setIsOpened] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [minWidth, setMinWith] = useState(null);
 
     // Return nothing if `data` isn't an array
     if (!Array.isArray(data)) {
         return null;
     }
 
-    const [isOpened, setIsOpened] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [minWidth, setMinWith] = useState(null);
     const isEmpty = data.length < 1;
-
     const menuMinWidth = 80;
     let menuMaxWidth;
     let menuMaxHeight;
@@ -196,15 +193,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
             ))}
         </div>
     );
-};
-
-Dropdown.defaultProps = {
-    icon: null,
-    variant: DropdownVariants.Ghost,
-    size: DropdownSizes.Medium,
-    maxWidth: '300px',
-    hasSearch: false,
-    searchEmptyText: 'No results found.'
 };
 
 Dropdown.displayName = 'Dropdown';

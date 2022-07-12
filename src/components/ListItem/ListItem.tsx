@@ -6,7 +6,6 @@ import {ListItemProps} from './ListItem.types';
 
 export const ListItem: React.FC<ListItemProps> = ({
     label,
-    isHtml = false,
     iconStart = null,
     iconEnd = null,
     tabIndex,
@@ -44,7 +43,8 @@ export const ListItem: React.FC<ListItemProps> = ({
                         `moonstone-listItem-image_${imageSize}`,
                         'flexRow',
                         'alignCenter'
-                    )}>
+                    )}
+                    >
                         {image}
                     </figure>
                 )
@@ -52,7 +52,6 @@ export const ListItem: React.FC<ListItemProps> = ({
 
             <Typography
                 isNowrap
-                isHtml={isHtml}
                 className={clsx('flexFluid')}
                 variant={typographyVariant}
                 component="span"

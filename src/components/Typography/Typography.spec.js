@@ -91,31 +91,4 @@ describe('Typography', () => {
         );
         expect(wrapper.props.className).toContain('yoloooo');
     });
-
-    it('should not bind isHtml prop to the html component', () => {
-        const wrapper = shallow(
-            <Typography isHtml><div>string</div></Typography>
-        );
-        expect(wrapper.html()).not.toContain('isHtml');
-    });
-
-    it('should not validate propTypes when on production environment', () => {
-        // eslint-disable-next-line
-        // tslint:disable-next-line
-        global.console.originalError = console.error;
-        global.console.error = jest.fn();
-
-        jest.resetModules();
-        process.env.NODE_ENV = 'production';
-        const TypographyComponent = require('./Typography');
-
-        shallow(
-            <TypographyComponent.Typography isHtml>{true}</TypographyComponent.Typography>
-        );
-
-        expect(global.console.error).not.toHaveBeenCalled();
-
-        global.console.error = global.console.originalError;
-        delete global.console.originalError;
-    });
 });

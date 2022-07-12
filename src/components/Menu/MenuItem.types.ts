@@ -35,11 +35,6 @@ export type MenuItemProps = {
     label: React.ReactNode,
 
     /**
-     * Does the label contain HTML markup
-     */
-    isHtml?: boolean,
-
-    /**
      * A leading icon display before the label
      */
     iconStart?: React.ReactElement,
@@ -72,7 +67,7 @@ export type MenuItemProps = {
     /**
      * Optional value which can be returned when being used in user input elements such as Dropdown
      */
-    value?: any,
+    value?: unknown,
 
     /**
      * Function triggered on clicking the item

@@ -6,24 +6,24 @@ import './Input.scss';
 import {InputProps, InputSizes, InputVariants} from './Input.types';
 
 export const ControlledInput: React.FC<InputProps> = ({
-                                                          variant = InputVariants.Text,
-                                                          value = '',
-                                                          id,
-                                                                        role,
-                                                          placeholder,
-                                                          isDisabled = false,
-                                                          isReadOnly = false,
-                                                          className,
-                                                          size = InputSizes.Default,
-                                                          icon,
-                                                          isShowClearButton,
-                                                          onClear,
-                                                          onChange,
-                                                          onBlur,
-                                                          onFocus,
-                                                          focusOnField = false,
-                                                          ...props
-                                                      }) => {
+    variant = InputVariants.Text,
+    value = '',
+    id,
+    role,
+    placeholder,
+    isDisabled = false,
+    isReadOnly = false,
+    className,
+    size = InputSizes.Default,
+    icon,
+    isShowClearButton,
+    onClear,
+    onChange,
+    onBlur,
+    onFocus,
+    focusOnField = false,
+    ...props
+}) => {
     const classNameProps = clsx(
         'moonstone-input',
         {'moonstone-size_big': size === InputSizes.Big},
@@ -41,23 +41,24 @@ export const ControlledInput: React.FC<InputProps> = ({
     }, [focusOnField]);
 
     if (variant === InputVariants.Search) {
-        icon = <Search/>
-        isShowClearButton = true
-        role = 'search'
+        icon = <Search/>;
+        isShowClearButton = true;
+        role = 'search';
     }
 
     if (isShowClearButton && !onClear) {
         onClear = () => {
-            inputRef.current.value = ""
+            inputRef.current.value = '';
             const inputEvent: unknown = new Event('change');
             inputRef.current.dispatchEvent(inputEvent);
             onChange(inputEvent as React.ChangeEvent<HTMLInputElement>);
-        }
+        };
     }
 
     return (
         <div className={classNameProps}>
             <input
+                ref={inputRef}
                 className={
                     clsx(
                         'moonstone-input-element',
@@ -75,8 +76,6 @@ export const ControlledInput: React.FC<InputProps> = ({
                 onChange={onChange}
                 onBlur={onBlur}
                 onFocus={onFocus}
-                ref={inputRef}
-
                 {...props}
             />
             {icon && (
@@ -95,10 +94,10 @@ export const ControlledInput: React.FC<InputProps> = ({
             {onClear && inputFilled && !isDisabled && !isReadOnly && (
                 <Button
                     className="end-icon-wrap flexRow_center alignCenter"
-                    onClick={onClear}
                     variant="ghost"
                     icon={<Cancel/>}
                     aria-label="Reset"
+                    onClick={onClear}
                 />
             )}
         </div>

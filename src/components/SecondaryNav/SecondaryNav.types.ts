@@ -20,6 +20,6 @@ export type SecondaryNavProps = {
     /**
      * Triggered when the visibility is toggled
      */
-    onToggled?: (...args: any[]) => void;
+    onToggled?: (e: React.MouseEvent) => void;
 };
 

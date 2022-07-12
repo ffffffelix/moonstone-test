@@ -101,7 +101,7 @@ describe('UncontrolledInput', () => {
 
 describe('ControlledInput', () => {
     it('should display specified value', () => {
-        render(<Input value="test-value" onChange={() => {}}/>);
+        render(<Input value="test-value" onChange={() => null}/>);
         expect(screen.getByDisplayValue('test-value')).toBeInTheDocument();
     });
 
@@ -117,7 +117,7 @@ describe('ControlledInput', () => {
     it('should call specified onClear function', () => {
         const handleClear = jest.fn();
 
-        render(<Input variant="search" value="test-value" onChange={() => {}} onClear={handleClear}/>);
+        render(<Input variant="search" value="test-value" onChange={() => null} onClear={handleClear}/>);
         userEvent.click(screen.getByLabelText('Reset'));
 
         expect(handleClear).toHaveBeenCalledTimes(1);

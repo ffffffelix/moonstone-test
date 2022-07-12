@@ -11,9 +11,9 @@ export const UncontrolledInput: React.FC<InputProps> = ({defaultValue, onChange,
         if (typeof onChange !== 'undefined') {
             onChange(event);
         }
-    }
+    };
 
-    return <ControlledInput value={inputValue} onChange={handleOnChange}  {...props}/>;
+    return <ControlledInput value={inputValue} onChange={handleOnChange} {...props}/>;
 };
 
 UncontrolledInput.displayName = 'UncontrolledInput';

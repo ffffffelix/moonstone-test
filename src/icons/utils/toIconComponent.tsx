@@ -1,23 +1,21 @@
 import React, {Attributes, FunctionComponent, PropsWithChildren, ReactElement} from 'react';
 import * as Icons from '~/icons/components';
 import {ImgWrapper, SvgWrapper} from '~/components';
-import {SvgWrapperProps} from "~/components/SvgWrapper/SvgWrapper.types";
+import {SvgWrapperProps} from '~/components/SvgWrapper/SvgWrapper.types';
 
-type ToCompProps = {
-    [key: string]: number;
-}
+type SVGProps = React.HTMLProps<SVGElement> & React.HTMLProps<HTMLElement>;
 
 const camelCased = (s: string) => s.replace(/-([a-z])/g, g => {
     return g[1].toUpperCase();
 });
 
-const toComp = (node: HTMLElement, idx: number) => {
+const toComp = (node: HTMLElement, idx: string) => {
     if (node.nodeType === 1) {
-        const props: ToCompProps = {key: idx};
-        Array.prototype.slice.call(node.attributes).forEach((attr: any) => {
+        const props: {[key: string]: unknown} = {key: idx};
+        Array.prototype.slice.call(node.attributes).forEach((attr: SVGProps) => {
             props[camelCased(attr.name)] = attr.value;
         });
-        const children = Array.prototype.slice.call(node.childNodes).map((child: HTMLElement, idxChild: number) => toComp(child, idxChild));
+        const children = Array.prototype.slice.call(node.childNodes).map((child: HTMLElement, idxChild: string) => toComp(child, idxChild));
         return React.createElement(node.tagName, props, children);
     }
 };
@@ -26,7 +24,7 @@ function extract(svg: string) {
     const parser = new DOMParser();
 
     const doc = parser.parseFromString(svg, 'image/svg+xml');
-    return toComp(doc.documentElement, 0);
+    return toComp(doc.documentElement, '0');
 }
 
 export const toIconComponentFunction = (icon: string | ReactElement): FunctionComponent => {
@@ -34,8 +32,7 @@ export const toIconComponentFunction = (icon: string | ReactElement): FunctionCo
         return (props: PropsWithChildren<Attributes>) => <SvgWrapper svg={icon} {...props}/>;
     }
 
-    // @ts-ignore
-    const iconFunction:FunctionComponent = Icons[icon];
+    const iconFunction:FunctionComponent = Icons[icon as keyof typeof Icons];
     if (iconFunction) {
         return iconFunction;
     }
