@@ -1,6 +1,3 @@
 {
-  "author": {
-    "name": "Joe Schmo",
-    "email": "joe@schmo.com"
-  }
+  "author": "Joe Schmo <joe@schmo.com>"
 }
