@@ -1,3 +1,15 @@
+# v2.4.1 (Tue Jul 26 2022)
+
+#### ⚠️ Pushed to `master`
+
+- update autorc config ([@ffffffelix](https://github.com/ffffffelix))
+
+#### Authors: 1
+
+- Félix Vallé ([@ffffffelix](https://github.com/ffffffelix))
+
+---
+
 # v2.4.0 (Wed Jun 15 2022)
 
 #### 🚀 Enhancement
