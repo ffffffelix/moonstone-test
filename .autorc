@@ -1,3 +1,5 @@
 {
-  "author": "Joe Schmo <joe@schmo.com>"
+  "author": "Jahia CI <jahia-ci@jahia.com>",
+  "prereleaseBranches": ["develop"],
+  "plugins": ["npm"]
 }
